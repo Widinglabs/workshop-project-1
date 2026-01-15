@@ -6,7 +6,9 @@ Exercise repository for the Agentic Engineering Workshop.
 
 | Branch | Description |
 |--------|-------------|
-| `exercise-1` | Baseline implementation - establish your AI-assisted coding workflow before learning systematic techniques |
+| `exercise-1` | Baseline - establish your AI-assisted coding workflow |
+| `exercise-2` | PIV Loop - learn Planning → Implementing → Validating with reusable commands |
+| `exercise-3` | Practice - apply PIV Loop to your own feature ideas |
 
 ## Getting Started
 
