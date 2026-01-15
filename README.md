@@ -4,13 +4,41 @@ Apply the **PIV Loop** methodology: **P**lanning → **I**mplementing → **V**a
 
 Same task as Exercise 1, but with structured planning and reusable prompts.
 
-## Using Reusable Prompts
+## Commands
+
+### PIV Loop Commands
+
+| Command | Description |
+|---------|-------------|
+| `/plan` | Create implementation plan through codebase analysis |
+| `/implement` | Execute a plan with validation loops |
+| `/validate` | Run linter, type checker, and tests |
+| `/review` | Code review with issue categorization |
+
+### Utility Commands
+
+| Command | Description |
+|---------|-------------|
+| `/install` | Install dependencies and start servers |
+| `/prime` | Prime agent with codebase understanding |
+
+### Command Locations
 
 | Tool | Location | Invocation |
 |------|----------|------------|
-| Claude Code | `.claude/commands/` | `/project:command-name` |
+| Claude Code | `.claude/commands/` | `/command-name` |
 | Cursor | `.cursor/commands/` | `/command-name` |
 | VS Code Copilot | `.github/prompts/` | `#prompt-name` |
+
+### Artifacts
+
+Commands generate artifacts in tool-specific directories:
+
+| Artifact | Path |
+|----------|------|
+| Plans | `.{tool}/artifacts/plans/` |
+| Reports | `.{tool}/artifacts/reports/` |
+| Reviews | `.{tool}/artifacts/reviews/` |
 
 ## Quick Start
 
@@ -26,9 +54,9 @@ cd app/frontend && bun install && bun dev
 
 ## The Task
 
-1. **Plan**: Read `tasks/TASK1.md` (backend) and `tasks/TASK2.md` (frontend), then create an implementation plan
-2. **Implement**: Use your plan as context when prompting your AI assistant
-3. **Validate**: Run tests with `cd app/backend && uv run pytest tests/ -v`
+1. **Plan**: Read `tasks/TASK1.md` (backend) and `tasks/TASK2.md` (frontend), then run `/plan`
+2. **Implement**: Run `/implement` with your plan
+3. **Validate**: Run `/validate` to verify everything works
 
 ## Success Criteria
 
