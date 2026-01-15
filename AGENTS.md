@@ -8,8 +8,8 @@ This is an Agentic Engineering Workshop project for learning the PIV Loop method
 
 ## Branch Rules
 
-- **Base branch**: `exercise-2`
-- Create new branches from `exercise-2`
+- **Base branch**: `exercise-3`
+- Create new branches from `exercise-3`
 - **Never** commit or push to `main`
 
 ## Commands

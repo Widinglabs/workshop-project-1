@@ -1,8 +1,8 @@
-# Exercise 2: PIV Loop Implementation
+# Exercise 3: PIV Loop Practice
 
-Apply the **PIV Loop** methodology: **P**lanning → **I**mplementing → **V**alidating
+Practice the **PIV Loop** methodology with your own feature ideas.
 
-Same task as Exercise 1, but with structured planning and reusable prompts.
+This exercise has the same codebase and commands as Exercise 2, but no predefined tasks.
 
 ## Commands
 
@@ -32,8 +32,6 @@ Same task as Exercise 1, but with structured planning and reusable prompts.
 
 ### Artifacts
 
-Commands generate artifacts in tool-specific directories:
-
 | Artifact | Path |
 |----------|------|
 | Plans | `.{tool}/artifacts/plans/` |
@@ -42,24 +40,26 @@ Commands generate artifacts in tool-specific directories:
 
 ## Quick Start
 
-**Backend** (Terminal 1):
-```bash
-cd app/backend && uv venv --python 3.12 && uv sync && uv run python run_api.py
-```
+Run `/install` or manually:
 
-**Frontend** (Terminal 2):
-```bash
-cd app/frontend && bun install && bun dev
-```
+**Backend**: `cd app/backend && uv venv --python 3.12 && uv sync && uv run python run_api.py`
 
-## The Task
+**Frontend**: `cd app/frontend && bun install && bun dev`
 
-1. **Plan**: Read `tasks/TASK1.md` (backend) and `tasks/TASK2.md` (frontend), then run `/plan`
-2. **Implement**: Run `/implement` with your plan
-3. **Validate**: Run `/validate` to verify everything works
+## Suggested Features
 
-## Success Criteria
+Ideas to practice the PIV loop:
 
-- All backend tests pass
-- Frontend displays working filter UI
-- Filters work together (price, category, search, sort)
+- Add pagination to product list
+- Add product sorting UI
+- Add "out of stock" visual indicator
+- Add product count display
+- Add price range filter
+- Add category badges to products
+
+## Workflow
+
+1. **Plan**: `/plan "your feature description"`
+2. **Implement**: `/implement path/to/plan.md`
+3. **Validate**: `/validate`
+4. **Review**: `/review all`
