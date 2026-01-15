@@ -1,65 +1,52 @@
-# Exercise 3: PIV Loop Practice
+# Exercise 3: Workflow Automation (Group Exercise)
 
-Practice the **PIV Loop** methodology with your own feature ideas.
+Identify repetitive workflows in your team that could become reusable AI commands.
 
-This exercise has the same codebase and commands as Exercise 2, but no predefined tasks.
+## The Exercise
 
-## Commands
+In your group, discuss and document:
 
-### PIV Loop Commands
+1. **Identify** - What tasks do you do repeatedly?
+   - Code review patterns
+   - PR/commit workflows
+   - Testing routines
+   - Documentation updates
+   - Debugging steps
+   - Deployment checks
 
-| Command | Description |
-|---------|-------------|
-| `/plan` | Create implementation plan through codebase analysis |
-| `/implement` | Execute a plan with validation loops |
-| `/validate` | Run linter, type checker, and tests |
-| `/review` | Code review with issue categorization |
+2. **Analyze** - For each workflow:
+   - What are the steps?
+   - What input does it need?
+   - What output should it produce?
+   - What validations should it run?
 
-### Utility Commands
+3. **Design** - Pick one workflow and sketch a command:
+   - Command name and description
+   - Input format (arguments or questions)
+   - Process phases
+   - Output format
 
-| Command | Description |
-|---------|-------------|
-| `/install` | Install dependencies and start servers |
-| `/prime` | Prime agent with codebase understanding |
+## Command Template
 
-### Command Locations
+Use the PIV commands from Exercise 2 as reference:
 
-| Tool | Location | Invocation |
-|------|----------|------------|
-| Claude Code | `.claude/commands/` | `/command-name` |
-| Cursor | `.cursor/commands/` | `/command-name` |
-| VS Code Copilot | `.github/prompts/` | `#prompt-name` |
+```
+.claude/commands/
+.cursor/commands/
+.github/prompts/
+```
 
-### Artifacts
+## Example Workflows to Consider
 
-| Artifact | Path |
-|----------|------|
-| Plans | `.{tool}/artifacts/plans/` |
-| Reports | `.{tool}/artifacts/reports/` |
-| Reviews | `.{tool}/artifacts/reviews/` |
+- Pre-PR checklist (lint, test, changelog)
+- Bug investigation process
+- Feature flag rollout
+- Database migration review
+- API endpoint creation
+- Component scaffolding
+- Release notes generation
+- Incident response steps
 
-## Quick Start
+## Deliverable
 
-Run `/install` or manually:
-
-**Backend**: `cd app/backend && uv venv --python 3.12 && uv sync && uv run python run_api.py`
-
-**Frontend**: `cd app/frontend && bun install && bun dev`
-
-## Suggested Features
-
-Ideas to practice the PIV loop:
-
-- Add pagination to product list
-- Add product sorting UI
-- Add "out of stock" visual indicator
-- Add product count display
-- Add price range filter
-- Add category badges to products
-
-## Workflow
-
-1. **Plan**: `/plan "your feature description"`
-2. **Implement**: `/implement path/to/plan.md`
-3. **Validate**: `/validate`
-4. **Review**: `/review all`
+A draft command file (`.md`) describing your automated workflow.
