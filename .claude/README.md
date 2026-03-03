@@ -197,11 +197,60 @@ Full programmatic control — tools, sessions, hooks, streaming.
 
 ---
 
+## 12. Plugins and Marketplaces
+
+Package skills, hooks, agents, and MCP servers into **distributable plugins**. Host them in a **marketplace** (a Git repo) for your team.
+
+This repo includes a working example at `plugins/`:
+
+```
+plugins/
+├── .claude-plugin/
+│   └── marketplace.json         # Registry listing available plugins
+└── ws-piv-loop/                 # The PIV Loop plugin
+    ├── .claude-plugin/
+    │   └── plugin.json          # Plugin manifest
+    ├── skills/                  # All ws-* skills
+    ├── hooks/
+    │   ├── hooks.json           # Hook configuration
+    │   ├── guard-bash.sh        # Command guard
+    │   ├── guard-files.sh       # File guard
+    │   └── notify-done.sh       # Done notification
+    └── README.md
+```
+
+**Install from this marketplace:**
+
+```bash
+/plugin marketplace add Widinglabs/workshop-project-1
+/plugin install ws-piv-loop@workshop-marketplace
+```
+
+**Enterprise pattern** — distribute standards to every engineer:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "company-internal": {
+      "source": { "source": "github", "repo": "your-org/claude-plugins" }
+    }
+  },
+  "strictKnownMarketplaces": [
+    { "source": "github", "repo": "your-org/claude-plugins" }
+  ]
+}
+```
+
+See `plugins/README.md` for a full guide on creating plugins and marketplaces.
+
+---
+
 ## How It All Fits Together
 
 1. **CLAUDE.md** — always loaded, sets project-wide standards
 2. **Rules** — loaded on-demand for specific parts of the codebase
 3. **Skills** — invoked to run structured workflows
 4. **Hooks** — enforce guardrails automatically
+5. **Plugins** — package and distribute all of the above across teams
 
-The agent sees CLAUDE.md every session. Rules activate as it reads files. Skills give it playbooks. Hooks keep it safe. Together, they replace "hoping the AI does the right thing" with infrastructure that guarantees it.
+The agent sees CLAUDE.md every session. Rules activate as it reads files. Skills give it playbooks. Hooks keep it safe. Plugins distribute it all. Together, they replace "hoping the AI does the right thing" with infrastructure that guarantees it.

@@ -1,0 +1,14 @@
+{
+  "name": "workshop-marketplace",
+  "owner": {
+    "name": "Widinglabs",
+    "email": "rasmus@rasmuswiding.com"
+  },
+  "plugins": [
+    {
+      "name": "ws-piv-loop",
+      "source": "./ws-piv-loop",
+      "description": "PIV Loop workflow — Plan, Implement, Validate — with guards and notifications."
+    }
+  ]
+}

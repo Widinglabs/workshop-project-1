@@ -1,0 +1,12 @@
+{
+  "name": "ws-piv-loop",
+  "version": "1.0.0",
+  "description": "PIV Loop workflow skills — Plan, Implement, Validate — with code review, installation, and codebase priming.",
+  "author": {
+    "name": "Rasmus Widing",
+    "url": "https://rasmuswiding.com"
+  },
+  "repository": "https://github.com/Widinglabs/workshop-project-1",
+  "license": "MIT",
+  "keywords": ["piv-loop", "planning", "validation", "code-review", "workflow"]
+}
