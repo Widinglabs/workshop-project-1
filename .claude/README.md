@@ -59,6 +59,69 @@ Claude Code ships with built-in skills alongside our custom `/ws-*` ones:
 | `/memory` | View and manage auto-memory and loaded rules |
 | `/debug` | Troubleshoot your Claude Code session |
 
+## Advanced Features
+
+### Agent Teams (Experimental)
+
+Multiple Claude Code instances collaborating on a shared project. One session acts as the "team lead" that spawns "teammates" — each with their own context window.
+
+```bash
+# Enable in settings.json
+{ "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" } }
+```
+
+Teammates coordinate through a shared task list and direct messaging. Good for parallel code review (3 reviewers on different aspects), competing debug hypotheses, or splitting a feature across backend/frontend/tests.
+
+### Worktrees — Parallel Isolated Sessions
+
+Each agent gets its own copy of the repo via git worktrees. No file conflicts, no branch collisions.
+
+```bash
+claude --worktree feature-auth    # Creates .claude/worktrees/feature-auth/
+claude -w bugfix-123              # Separate branch, separate files
+```
+
+Run 3-5 agents simultaneously on different tasks. Worktrees share project config (skills, hooks, rules) but have isolated file and git state. Clean up is automatic when there are no changes.
+
+### Headless Mode — Scripts and CI/CD
+
+Run Claude non-interactively for automation:
+
+```bash
+claude -p "Find and fix the bug in auth.py"                    # One-shot
+claude -p "Review this PR" --output-format json                # Structured output
+claude -p "Extract function names" --json-schema '{"type":"object","properties":{"functions":{"type":"array","items":{"type":"string"}}}}'
+```
+
+Powers GitHub Actions (`@claude` mentions in PRs) and CI/CD pipelines.
+
+### Remote Control
+
+Start Claude locally, continue from any browser or phone. Computation stays on your machine — the web UI is just a remote display.
+
+```bash
+claude remote-control    # Generates URL + QR code
+/remote-control          # Enable from existing session
+```
+
+Requires Max plan. Great for long-running tasks — fire it off and check from your phone.
+
+### Agent SDK
+
+Programmatic control from Python or TypeScript:
+
+```python
+from claude_agent_sdk import query, ClaudeAgentOptions
+
+async for message in query(
+    prompt="Find and fix the bug in auth.py",
+    options=ClaudeAgentOptions(allowed_tools=["Read", "Edit", "Bash"]),
+):
+    print(message.result)
+```
+
+Full access to tools, sessions, hooks, and streaming. The foundation for custom AI workflows.
+
 ## How It All Fits Together
 
 1. **CLAUDE.md** (project root) — always loaded, sets project-wide standards
