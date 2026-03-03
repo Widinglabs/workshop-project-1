@@ -4,7 +4,7 @@ Reference for features demonstrated during the workshop, ordered to match the pr
 
 ---
 
-## 1. CLAUDE.md — Project Onboarding (Slides 24-26)
+## 1. CLAUDE.md — Project Onboarding (Slides 25-27)
 
 Always loaded. Every conversation, every task. The project's single source of truth for AI sessions.
 
@@ -22,9 +22,9 @@ Run `/init` to auto-generate a starting CLAUDE.md from your codebase.
 
 ---
 
-## 2. Skills and Slash Commands (Slides 27-28)
+## 2. Skills and Slash Commands (Slides 28-29)
 
-Reusable workflows stored as markdown. Invoke with `/skill-name`.
+Reusable workflows stored as markdown. Invoke with `/skill-name`. See [`skills/README.md`](skills/README.md) for full details.
 
 ```
 .claude/skills/my-skill/
@@ -46,19 +46,9 @@ Reusable workflows stored as markdown. Invoke with `/skill-name`.
 
 These follow the **PIV Loop**: Plan → Implement → Validate.
 
-### Built-in Skills
-
-| Command | Purpose |
-|---------|---------|
-| `/simplify` | Spawns 3 parallel agents reviewing code for reuse, quality, efficiency — then fixes issues |
-| `/batch` | Decomposes large changes into parallel units, each in an isolated worktree |
-| `/init` | Auto-generates CLAUDE.md from your codebase |
-| `/memory` | View loaded rules and auto-memory |
-| `/debug` | Troubleshoot your Claude Code session |
-
 ---
 
-## 3. PRP Framework (Slides 34-36)
+## 3. PRP Framework (Slides 35-37)
 
 One framework covering every SDLC phase. Install: `claude plugin add github:Wirasm/PRPs-agentic-eng/plugins/prp-core`
 
@@ -74,7 +64,7 @@ One framework covering every SDLC phase. Install: `claude plugin add github:Wira
 
 ---
 
-## 4. Validation Pyramid (Slide 38)
+## 4. Validation Pyramid (Slide 39)
 
 | Layer | Responsibility | Who |
 |-------|---------------|-----|
@@ -88,9 +78,9 @@ Validation is built into every PRP command. The AI validates its own work before
 
 ---
 
-## 5. Path-Scoped Rules (Slide 40)
+## 5. Path-Scoped Rules (Slide 41)
 
-Rules load on-demand when Claude reads matching files. Right context at the right time.
+Rules load on-demand when Claude reads matching files. Right context at the right time. See [`rules/README.md`](rules/README.md) for details.
 
 ```
 .claude/rules/
@@ -103,9 +93,9 @@ Rules without `paths:` frontmatter load at launch (like CLAUDE.md). Rules with `
 
 ---
 
-## 6. Hooks — Automated Guardrails (Slide 41)
+## 6. Hooks — Automated Guardrails (Slide 42)
 
-Shell commands at lifecycle events. Deterministic — always fire, can't be ignored by the LLM.
+Shell commands at lifecycle events. Deterministic — always fire, can't be ignored by the LLM. See [`hooks/README.md`](hooks/README.md) for details.
 
 | Hook | Event | Purpose |
 |------|-------|---------|
@@ -115,11 +105,56 @@ Shell commands at lifecycle events. Deterministic — always fire, can't be igno
 
 Exit code `0` = allow, `2` = block (stderr sent back to Claude as feedback).
 
-Available events: `SessionStart` · `PreToolUse` · `PostToolUse` · `PostToolUseFailure` · `Stop` · `Notification` · `SubagentStart` · `SubagentStop` · `TaskCompleted` · `TeammateIdle`
+---
+
+## 7. MCP — Extending the Agent's Reach (Slide 43)
+
+MCP (Model Context Protocol) connects Claude to external tools via a standard protocol. Configure in `.mcp.json` and commit — every team member gets the same toolset.
+
+Available integrations: GitHub, Jira, Slack, Postgres, Sentry, SAP HANA, and hundreds more.
 
 ---
 
-## 7. Parallel Development — Worktrees (Slide 42)
+## 8. Built-in Skills: /simplify and /batch (Slide 44)
+
+| Command | Purpose |
+|---------|---------|
+| `/simplify` | Spawns 3 parallel agents reviewing code for reuse, quality, efficiency — then fixes issues |
+| `/batch` | Decomposes large changes into parallel units, each in an isolated worktree |
+| `/security-review` | Analyzes pending changes for security vulnerabilities |
+| `/review` | PR review for quality, correctness, security, test coverage |
+| `/init` | Auto-generates CLAUDE.md from your codebase |
+| `/memory` | View loaded rules and auto-memory |
+| `/debug` | Troubleshoot your Claude Code session |
+
+See [`skills/README.md`](skills/README.md) for the full list including built-in commands.
+
+---
+
+## 9. Plugins and Marketplaces (Slide 46)
+
+Package skills, hooks, agents, and MCP servers into **distributable plugins**. Host them in a **marketplace** (a Git repo) for your team. See [`plugins/README.md`](../plugins/README.md) for a full guide.
+
+This repo includes a working example at `plugins/`:
+
+```
+plugins/
+├── .claude-plugin/
+│   └── marketplace.json         # Registry listing available plugins
+└── ws-piv-loop/                 # The PIV Loop plugin
+    ├── .claude-plugin/plugin.json
+    ├── skills/                  # All ws-* skills
+    ├── hooks/                   # Guards + notification
+    └── README.md
+```
+
+**Install:** `/plugin marketplace add Widinglabs/workshop-project-1`
+
+**Enterprise pattern** — lock down to approved plugins with `strictKnownMarketplaces`.
+
+---
+
+## 10. Parallel Development — Worktrees (Slide 47)
 
 Each agent gets its own isolated copy of the repo. No file conflicts, no branch collisions.
 
@@ -128,36 +163,11 @@ claude --worktree feature-auth    # Creates .claude/worktrees/feature-auth/
 claude -w bugfix-123              # Separate branch, separate files
 ```
 
-Run 3-5 agents simultaneously. Worktrees share project config (skills, hooks, rules) but have isolated file and git state. Cleanup is automatic when no changes are made.
+Run 3-5 agents simultaneously. Worktrees share project config (skills, hooks, rules) but have isolated file and git state.
 
 ---
 
-## 8. Subagents (Slide 43)
-
-Spawn specialized agents for focused tasks. Each gets its own context window.
-
-- Review code in parallel with 7 different reviewers
-- Research your codebase with explorer + analyst agents
-- Run security audits while you continue building
-
-Results are summarized back to the main session.
-
----
-
-## 9. Agent Teams (Experimental)
-
-Multiple Claude Code instances collaborating on a shared project. One "team lead" spawns "teammates" — each with their own context window, coordinating through a shared task list and direct messaging.
-
-```bash
-# Enable in settings.json
-{ "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" } }
-```
-
-Good for: parallel code review, competing debug hypotheses, splitting features across backend/frontend/tests.
-
----
-
-## 10. Remote Control
+## 11. Remote Control (Slide 48)
 
 Start Claude locally, continue from any browser or phone. Computation stays on your machine — the web UI is just a remote display.
 
@@ -170,78 +180,24 @@ Great for out-of-loop work — fire off a task and check progress from your phon
 
 ---
 
-## 11. Headless Mode and Agent SDK
+## 12. Subagents and Agent Teams (Slide 49)
 
-### CLI (`claude -p`)
+**Subagents** — specialized agents for focused tasks. Each gets its own context window, results flow back.
 
-```bash
-claude -p "Find and fix the bug in auth.py"                    # One-shot
-claude -p "Review this PR" --output-format json                # Structured output
-```
-
-Powers GitHub Actions (`@claude` mentions in PRs) and CI/CD pipelines.
-
-### Agent SDK (Python / TypeScript)
-
-```python
-from claude_agent_sdk import query, ClaudeAgentOptions
-
-async for message in query(
-    prompt="Find and fix the bug in auth.py",
-    options=ClaudeAgentOptions(allowed_tools=["Read", "Edit", "Bash"]),
-):
-    print(message.result)
-```
-
-Full programmatic control — tools, sessions, hooks, streaming.
+**Agent Teams** (experimental) — multiple Claude instances coordinate via shared task lists and direct messaging. Enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
 
 ---
 
-## 12. Plugins and Marketplaces
+## 13. Headless Mode and Agent SDK
 
-Package skills, hooks, agents, and MCP servers into **distributable plugins**. Host them in a **marketplace** (a Git repo) for your team.
-
-This repo includes a working example at `plugins/`:
-
-```
-plugins/
-├── .claude-plugin/
-│   └── marketplace.json         # Registry listing available plugins
-└── ws-piv-loop/                 # The PIV Loop plugin
-    ├── .claude-plugin/
-    │   └── plugin.json          # Plugin manifest
-    ├── skills/                  # All ws-* skills
-    ├── hooks/
-    │   ├── hooks.json           # Hook configuration
-    │   ├── guard-bash.sh        # Command guard
-    │   ├── guard-files.sh       # File guard
-    │   └── notify-done.sh       # Done notification
-    └── README.md
-```
-
-**Install from this marketplace:**
+Run Claude non-interactively for scripts and CI/CD:
 
 ```bash
-/plugin marketplace add Widinglabs/workshop-project-1
-/plugin install ws-piv-loop@workshop-marketplace
+claude -p "Find and fix the bug in auth.py"
+claude -p "Review this PR" --output-format json
 ```
 
-**Enterprise pattern** — distribute standards to every engineer:
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "company-internal": {
-      "source": { "source": "github", "repo": "your-org/claude-plugins" }
-    }
-  },
-  "strictKnownMarketplaces": [
-    { "source": "github", "repo": "your-org/claude-plugins" }
-  ]
-}
-```
-
-See `plugins/README.md` for a full guide on creating plugins and marketplaces.
+Agent SDK available for Python and TypeScript — full programmatic control.
 
 ---
 
