@@ -60,6 +60,27 @@ Reads your session debug log and diagnoses issues. Optional description to focus
 /debug why did my last command fail
 ```
 
+### `/security-review` — Security Vulnerability Analysis
+
+Analyzes pending changes on your current branch for security vulnerabilities (OWASP Top 10, injection, auth issues). Run before merging.
+
+### `/review` — Pull Request Review
+
+Reviews a PR for quality, correctness, security, and test coverage. Pass a PR number or it detects the current branch's PR.
+
+## Built-in Commands
+
+Not skills (hard-coded behavior), but worth knowing:
+
+| Command | Purpose |
+|---------|---------|
+| `/diff` | Interactive diff viewer — current git diff plus per-turn diffs |
+| `/compact` | Compress conversation to free context, with optional focus instructions |
+| `/context` | Visualize current context window usage as a colored grid |
+| `/insights` | Analyze your Claude Code session patterns and friction points |
+| `/doctor` | Diagnose and verify Claude Code installation and settings |
+| `/output-style` | Switch between Default, Explanatory, and Learning output modes |
+
 ## Creating New Skills
 
 Add a directory under `.claude/skills/` with a `SKILL.md` entrypoint:
